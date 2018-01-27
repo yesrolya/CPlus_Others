@@ -1,6 +1,5 @@
-// Производственная линия
+// РџСЂРѕРёР·РІРѕРґСЃС‚РІРµРЅРЅР°СЏ Р»РёРЅРёСЏ
 #include <stdio.h>
-//#include <unistd.h>
 #include <semaphore.h>
 #include <pthread.h>
 #include<locale>
@@ -13,43 +12,43 @@ int n;
 void* createA (void* argv){
     for (int i = 1; i <= n; i++){
         Sleep(2000);
-        sem_post(&semA); //увеличение на 1 семафора semA
-        std::cout << "Произведена деталь A" << std::endl;
+        sem_post(&semA); //СѓРІРµР»РёС‡РµРЅРёРµ РЅР° 1 СЃРµРјР°С„РѕСЂР° semA
+        std::cout << "РџСЂРѕРёР·РІРµРґРµРЅР° РґРµС‚Р°Р»СЊ A" << std::endl;
     }
 }
 
 void* createB (void* argv){
     for (int i = 1; i <= n; i++){
         Sleep(3000);
-        sem_post(&semB);   //увеличение на 1 семафора semB
-        std::cout << "Произведена деталь B" << std::endl;
+        sem_post(&semB);   //СѓРІРµР»РёС‡РµРЅРёРµ РЅР° 1 СЃРµРјР°С„РѕСЂР° semB
+        std::cout << "РџСЂРѕРёР·РІРµРґРµРЅР° РґРµС‚Р°Р»СЊ B" << std::endl;
     }
 }
 
 void* createC (void* argv){
     for (int i = 1; i <= n; i++){
         Sleep(4000);
-        sem_post(&semC);  //увеличение на 1 семафора semC
-        std::cout << "Произведена деталь C" << std::endl;
+        sem_post(&semC);  //СѓРІРµР»РёС‡РµРЅРёРµ РЅР° 1 СЃРµРјР°С„РѕСЂР° semC
+        std::cout << "РџСЂРѕРёР·РІРµРґРµРЅР° РґРµС‚Р°Р»СЊ C" << std::endl;
     }
 }
 
 void* createAB (void* argv){
     for (int i = 1; i <= n; i++){
         Sleep(1);
-        sem_wait(&semA); //ждет semA = 1 и уменьшение на 1 семафора semA
-        sem_wait(&semB); //ждет semB = 1 и уменьшение на 1 семафора semB
-        sem_post(&semAB);  //увеличение на 1 семафора semAB
-        std::cout << "Собран модуль AB" << std::endl;
+        sem_wait(&semA); //Р¶РґРµС‚ semA = 1 Рё СѓРјРµРЅСЊС€РµРЅРёРµ РЅР° 1 СЃРµРјР°С„РѕСЂР° semA
+        sem_wait(&semB); //Р¶РґРµС‚ semB = 1 Рё СѓРјРµРЅСЊС€РµРЅРёРµ РЅР° 1 СЃРµРјР°С„РѕСЂР° semB
+        sem_post(&semAB);  //СѓРІРµР»РёС‡РµРЅРёРµ РЅР° 1 СЃРµРјР°С„РѕСЂР° semAB
+        std::cout << "РЎРѕР±СЂР°РЅ РјРѕРґСѓР»СЊ AB" << std::endl;
     }
 }
 
 void* createWidget (){
     for (int i = 1; i <= n; i++){
         Sleep(1);
-        sem_wait(&semAB);  //ждет semAB = 1 и уменьшение на 1 семафора semAB
-        sem_wait(&semC); //ждет semC = 1 и уменьшение на 1 семафора semC
-        std::cout << "Устройство #" << i << " собрано из модуля AB и детали C" << std::endl;
+        sem_wait(&semAB);  //Р¶РґРµС‚ semAB = 1 Рё СѓРјРµРЅСЊС€РµРЅРёРµ РЅР° 1 СЃРµРјР°С„РѕСЂР° semAB
+        sem_wait(&semC); //Р¶РґРµС‚ semC = 1 Рё СѓРјРµРЅСЊС€РµРЅРёРµ РЅР° 1 СЃРµРјР°С„РѕСЂР° semC
+        std::cout << "РЈСЃС‚СЂРѕР№СЃС‚РІРѕ #" << i << " СЃРѕР±СЂР°РЅРѕ РёР· РјРѕРґСѓР»СЏ AB Рё РґРµС‚Р°Р»Рё C" << std::endl;
     }
 }
 
@@ -59,19 +58,18 @@ int main(){
     pthread_t threadB;
     pthread_t threadC;
     pthread_t threadAB;
-    std::cout << "Введите количесво устройств, которые необходимо произвести: ";
+    std::cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃРІРѕ СѓСЃС‚СЂРѕР№СЃС‚РІ, РєРѕС‚РѕСЂС‹Рµ РЅРµРѕР±С…РѕРґРёРјРѕ РїСЂРѕРёР·РІРµСЃС‚Рё: ";
     std::cin >> n;
-
-    sem_init(&semA, 0, 0); //первоначальное значение = 0
-    sem_init(&semB, 0, 0); //то есть все конвейеры свободны
+    
+    sem_init(&semA, 0, 0); //РїРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ = 0
+    sem_init(&semB, 0, 0); //С‚Рѕ РµСЃС‚СЊ РІСЃРµ РєРѕРЅРІРµР№РµСЂС‹ СЃРІРѕР±РѕРґРЅС‹
     sem_init(&semC, 0, 0);
     sem_init(&semAB, 0, 0);
 
-    pthread_create(&threadA, NULL, createA, NULL); //без атрибутов и аргуметнов (NULL)
+    pthread_create(&threadA, NULL, createA, NULL); //Р±РµР· Р°С‚СЂРёР±СѓС‚РѕРІ Рё Р°СЂРіСѓРјРµС‚РЅРѕРІ (NULL)
     pthread_create(&threadB, NULL, createB, NULL);
     pthread_create(&threadC, NULL, createC, NULL);
     pthread_create(&threadAB, NULL, createAB, NULL);
     createWidget();
-
     return 0;
 }
